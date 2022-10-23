@@ -1,4 +1,4 @@
-import app from "./server.js";
+import app from "./index.js";
 import mongodb from "mongodb";
 import dotenv from "dotenv";
 import PostsDAO from "./dao/postsdao.js";
