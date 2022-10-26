@@ -3,7 +3,6 @@ const ObjectId = mongodb.ObjectID;
 import PostsDAO from "./postsdao.js";
 import postModel from "../models/postModel.js";
 
-
 export default class ElementsDAO {
   static async updateUpdatedTime(post_id) {
     try {
@@ -22,13 +21,14 @@ export default class ElementsDAO {
 
   static async addElement(element, post_id) {
     try {
-      this.updateUpdatedTime(post_id);
-      return await postModel.findOneAndUpdate(
+      await this.updateUpdatedTime(post_id);
+      const update_element = await postModel.findOneAndUpdate(
         { _id: ObjectId(post_id) },
         { $push: { elements: element } }
       );
+      return update_element;
     } catch (e) {
-      console.error(`Unable to post review: ${e}`);
+      console.error(`Unable to Add element: ${e}`);
       return { error: e };
     }
   }

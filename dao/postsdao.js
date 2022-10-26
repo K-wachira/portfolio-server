@@ -114,32 +114,24 @@ export default class PostsDAO {
       return { error: e };
     }
   }
-  static async uploadCover(req) {
-    console.log(typeof fs.readFileSync("uploads/" + req.file.filename));
-    try {
-      const saveImage = imageModel({
-        name: req.body.name,
-        image: {
-          data: fs.readFileSync("uploads/" + req.file.filename),
-          contentType: "image/png",
-        },
-      });
 
-      saveImage
-        .save()
-        .then((res) => {
-          console.log("image is saved",  res._doc._id);
-          return res
-        })
-        .catch((err) => {
-          console.log(err, "error has occur");
-          return {error: err.message}
-        });
+  static async uploadCover(req) {
+    try {
+      const updateResponse = await postModel.findOneAndUpdate(
+        { _id: ObjectId(req.post_id) },
+        {
+          $set: {
+            cover_image: req.image_key,
+          },
+        }
+      );
+      return updateResponse;
     } catch (e) {
-      console.error(`Unable to upload cover: ${e}`);
-      return { error: e.message };
+      console.error(`Unable to update post: ${e}`);
+      return { error: e };
     }
   }
+
   static async deletePostById(post_id) {
     try {
       const deletePost = await postModel.findOneAndDelete({
