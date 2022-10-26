@@ -1,5 +1,4 @@
-
-import  {Schema, model} from "mongoose";
+import { Schema, model } from "mongoose";
 const postModel = new Schema(
   {
     title: {
@@ -11,8 +10,7 @@ const postModel = new Schema(
       reqired: true,
     },
     cover_image: {
-      data: Buffer,
-      contentType: String,
+      type: String,
     },
     tags: [String],
     category: {
@@ -29,10 +27,6 @@ const postModel = new Schema(
         element_index: Number,
         element_type: { type: String, reqired: true, default: "Body" },
         body: String,
-        img: {
-          data: Buffer,
-          contentType: String,
-        },
         created_at: {
           type: Date,
           default: () => Date.now(),

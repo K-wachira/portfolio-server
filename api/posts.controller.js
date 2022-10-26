@@ -121,13 +121,5 @@ export default class PostsController {
     }
   }
 
-  static async apiUploadCover(req, res) {
-    try {
-      const image_upload = await PostsDAO.uploadCover(req);
-      res.status(200).json(image_upload);
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ error: error.message });
-    }
-  }
+  
 }

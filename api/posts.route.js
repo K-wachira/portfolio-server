@@ -1,6 +1,7 @@
 import express from "express";
 import PostsController from "./posts.controller.js";
 import ElementsController from "./elements.controller.js";
+import ImageController from "./image.controller.js";
 import multer from "multer";
 
 const storage = multer.diskStorage({
@@ -21,7 +22,7 @@ router.route("/tags").get(PostsController.apiGetTags);
 router.route("/publish").post(PostsController.apiPublishPost);
 router
   .route("/upload-cover")
-  .post(upload.single("uploaded_file"), PostsController.apiUploadCover);
+  .post(upload.single("uploaded_file"), ImageController.apiUploadCover);
 
 router
   .route("/post")
@@ -35,4 +36,7 @@ router
   .put(ElementsController.apiUpdateElement) // Modify Existing element
   .delete(ElementsController.apiDeleteElement); //Delete existing element
 
+router
+  .route("/element-image-upload")
+  .post(upload.single("uploaded_file"), ImageController.apiUploadElement);
 export default router;

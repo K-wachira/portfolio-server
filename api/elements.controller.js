@@ -14,20 +14,20 @@ export default class ElementsController {
         created_at: Date.now(),
         updated_at: Date.now(),
         body: "Add content ...",
-        element_index: req.body.element_index
+        element_index: req.body.element_index,
       };
+      if (
+        (req.body.element_type != null) &
+        (req.body.element_type === "Image")
+      ) {
+        element.body = req.body.body;
+        element["element_type"] = req.body.element_type;
+      }
+      ElementsDAO.addElement(element, post_id).then(async (response) => {
+        const rearranged = await ElementsDAO.elementIndexRealignment(post_id);
+      });
 
-      const ElementResponse = await ElementsDAO.addElement(
-        element,
-        post_id
-      ).then((response) => {
-        ElementsDAO.elementIndexRealignment(post_id);
-      });
-      res.status(200).json({
-        status: "Element Added Successfully",
-        data: ElementResponse,
-        element: element,
-      });
+      res.status(200).json({ status: 200, data: "Element Added " });
     } catch (e) {
       res.status(500).json({ error: e.message });
     }
